@@ -24,7 +24,7 @@ def start(message):
         subject = ""
         for i in df.index:
             subject += f"[{df.loc[i, 'subject']}]({df.loc[i, 'link']})\n"
-        bot.send_message(message.chat.id, subject, parse_mode="MarkdownV2")
+        bot.send_message(message.chat.id, subject, parse_mode="MarkdownV2", disable_web_page_preview=True)
 
     start_markup.row("Посмотреть дедлайны на этой неделе")
     start_markup.row("Редактировать дедлайны")
@@ -107,7 +107,10 @@ def choose_action(message):
             for cur_deadline in worksheet.row_values(i)[2:]:
                 if week >= convert_date(cur_deadline) >= today:
                     deadlines += f"{worksheet.cell(i, 1).value}: {cur_deadline}\n"
-        bot.send_message(message.chat.id, f"Дедлайны в ближайшие дни:\n\n{deadlines}")
+        if deadlines:
+            bot.send_message(message.chat.id, f"Дедлайны в ближайшие дни:\n\n{deadlines}")
+        else:
+            bot.send_message(message.chat.id, "В ближайшие дни нет дедлайнов!")
         start(message)
 
 
@@ -240,8 +243,9 @@ def update_subject_deadline3(message):
 
     else:
         if convert_date(message.text) < datetime.today():
-            bot.send_message(message.chat.id,
+            info = bot.send_message(message.chat.id,
                              "Ставить дедлайн в прошлое - идея классная, но не очень рабочая. Введите корректный дедлайн в формате 'dd.mm.yyyy'")
+            bot.register_next_step_handler(info, update_subject_deadline3)
         else:
             worksheet, b, df = access_current_sheet()
             row = worksheet.find(messenger[0]).row
