@@ -56,6 +56,9 @@ def connect_table(message):
     with open('tables.json', 'w') as json_file:
         json.dump(tables, json_file)
     bot.send_message(message.chat.id, "Таблица подключена!")
+    print(message)
+    print(message.text)
+    start(message)
 
 
 def access_current_sheet():
@@ -244,7 +247,7 @@ def update_subject_deadline3(message):
     else:
         if convert_date(message.text) < datetime.today():
             info = bot.send_message(message.chat.id,
-                             "Ставить дедлайн в прошлое - идея классная, но не очень рабочая. Введите корректный дедлайн в формате 'dd.mm.yyyy'")
+                                    "Ставить дедлайн в прошлое - идея классная, но не очень рабочая. Введите корректный дедлайн в формате 'dd.mm.yyyy'")
             bot.register_next_step_handler(info, update_subject_deadline3)
         else:
             worksheet, b, df = access_current_sheet()
