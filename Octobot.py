@@ -56,8 +56,6 @@ def connect_table(message):
     with open('tables.json', 'w') as json_file:
         json.dump(tables, json_file)
     bot.send_message(message.chat.id, "Таблица подключена!")
-    print(message)
-    print(message.text)
     start(message)
 
 
