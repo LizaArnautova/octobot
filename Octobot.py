@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import os
 import validators
 
-bot = telebot.TeleBot('5342671971:AAF28cVBgpXlhhDMz1dYT5Hc_-rIKtcHbJE')
+bot = telebot.TeleBot('') #tg token
 messenger = []
 
 
@@ -45,7 +45,7 @@ def convert_date(date: str = "01/01/00"):
 def connect_table(message):
     """ Подключаемся к Google-таблице """
     url = message.text
-    sheet_id = "1mMX5kYcA6EFhMo9I8uVxHfv_wMDSNUU27CcFz5ujGCY"
+    sheet_id = " " #google-sheet id
     try:
         with open("tables.json") as json_file:
             tables = json.load(json_file)
